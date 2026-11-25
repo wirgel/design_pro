@@ -1,0 +1,11 @@
+{% extends "basic.html" %}
+{% block content %}
+<h2>Удаление категории</h2>
+<p>Удалить категорию «{{ object.title }}»?<br>
+<b>Все заявки этой категории будут удалены.</b></p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'admin_categories' %}">Отмена</a>
+</form>
+{% endblock %}

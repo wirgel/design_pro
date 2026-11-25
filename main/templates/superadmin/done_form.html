@@ -1,0 +1,10 @@
+{% extends "basic.html" %}
+{% block content %}
+<h2>Выполнить заявку: {{ app.title }}</h2>
+<form method="post"> <!-- enctype="multipart/form-data"-->
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Загрузить дизайн и завершить</button>
+    <a href="{% url 'admin_dashboard' %}">Отмена</a>
+</form>
+{% endblock %}

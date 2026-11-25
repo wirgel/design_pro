@@ -1,0 +1,27 @@
+{% extends "basic.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<h1>Студия дизайна интерьеров Design.pro</h1>
+
+<p>Заявок в работе: <b>{{ in_work_count }}</b></p>
+
+<h2>Последние выполненные работы</h2>
+{% if done_apps %}
+    <div class="cards">
+        {% for app in done_apps %}
+            <div class="card">
+                {% if app.design_image %}
+                    <img src="{{ app.design_image.url }}" alt="{{ app.title }}" width="200">
+                {% elif app.image %}
+                    <img src="{{ app.image.url }}" alt="{{ app.title }}" width="200">
+                {% endif %}
+                <p><b>{{ app.title }}</b></p>
+                <p>Категория: {{ app.category.title }}</p>
+                <p><small>{{ app.created_at|date:"d.m.Y H:i" }}</small></p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Пока нет выполненных заявок.</p>
+{% endif %}
+{% endblock %}

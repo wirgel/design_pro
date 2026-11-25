@@ -1,0 +1,59 @@
+body {
+  font-family: Arial, sans-serif; margin: 0;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: lightblue;
+  border-bottom: 1px solid lightgray;
+}
+.topbar .brand {
+  font-weight: bold;
+  text-decoration: none;
+  color: gray;
+}
+.topbar nav a {
+  margin-left: 12px;
+  text-decoration: none;
+  color: gray;
+}
+.container {
+  padding: 20px;
+}
+footer {
+  padding: 10px 20px;
+  color: darkgray;
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+}
+.error {
+  color: red;
+}
+.messages {
+  list-style: none;
+  padding: 0 20px;
+}
+.messages li {
+  padding: 6px 10px;
+  margin: 6px 0;
+  border-radius: 4px;
+}
+.messages .success {
+  background: #d4edda;
+  color: #155724;
+}
+.messages .error {
+  background: #f8d7da;
+  color: #721c24;
+}
+table.apps {
+  border-collapse: collapse;
+  width: 100%;
+}
+table.apps th, table.apps td {
+  border: 1px solid lightgray;
+  padding: 6px 10px;
+  text-align: left;
+}

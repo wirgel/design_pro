@@ -1,0 +1,10 @@
+{% extends "basic.html" %}
+{% block content %}
+<h2>Удаление заявки</h2>
+<p>Удалить заявку «{{ object.title }}»?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'profile' %}">Отмена</a>
+</form>
+{% endblock %}

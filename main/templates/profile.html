@@ -1,0 +1,44 @@
+{% extends "basic.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h2>Здравствуйте, {{ user.first_name|default:user.username }}</h2>
+
+<p>
+    <a href="{% url 'application_create' %}">Создать заявку</a> |
+    <a href="{% url 'logout' %}">Выход</a>
+</p>
+
+<h3>Мои заявки</h3>
+
+<p>Фильтр:
+    <a href="{% url 'profile' %}">Все</a>
+    <a href="?status=Новая">Новые</a>
+    <a href="?status=Принято в работу">В работе</a>
+    <a href="?status=Выполнено">Выполненные</a>
+</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Дата</th><th>Название</th><th>Описание</th>
+            <th>Категория</th><th>Статус</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for app in apps %}
+        <tr>
+            <td>{{ app.created_at }}</td>
+            <td>{{ app.title }}</td>
+            <td>{{ app.content }}</td>
+            <td>{{ app.category.title }}</td>
+            <td>{{ app.get_status_display }}</td>
+            <td>
+                {% if app.status == 'Новая' %}
+                    <a href="{% url 'application_delete' app.pk %}">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
