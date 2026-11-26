@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.views.generic import CreateView, DeleteView, FormView
+from django.views.generic import CreateView, DeleteView, FormView, ListView
 from django.views import View
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from .forms import RegisterForm, ApplicationForm, AcceptForm, DoneForm
-from .models import Application
+from .forms import RegisterForm, ApplicationForm, AcceptForm, DoneForm, CategoryForm
+from .models import Application, Category
 
 
 def index(request):
@@ -88,7 +88,7 @@ class StaffRequiredMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_staff
 
-class AdminDashboard(StaffRequiredMixin, View):
+class AdminDashboard(StaffRequiredMixin, ListView):
     model = Application
     template_name = 'superadmin/dashboard.html'
     context_object_name = 'apps'
@@ -133,3 +133,21 @@ class DoneApplicationView(StaffRequiredMixin, View):
             app.save()
             return redirect('admin_dashboard')
         return render(request, 'superadmin/done_form.html', {'form': form, 'app': app})
+
+class CategoryListView(StaffRequiredMixin, ListView):
+    model = Category
+    template_name = 'superadmin/categories.html'
+    context_object_name = 'categories'
+
+
+class CategoryCreateView(StaffRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'superadmin/category_form.html'
+    success_url = reverse_lazy('admin_categories')
+
+
+class CategoryDeleteView(StaffRequiredMixin, DeleteView):
+    model = Category
+    template_name = 'superadmin/category_confirm_delete.html'
+    success_url = reverse_lazy('admin_categories')

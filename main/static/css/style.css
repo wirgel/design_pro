@@ -1,28 +1,36 @@
 body {
-  font-family: Arial, sans-serif; margin: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
 .topbar {
-  margin: 5px;
+  margin: 15px auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   background: lightcyan;
-  border-bottom: 1px solid lightgray;
+  border: 1px solid #b2ebf2;
   border-radius: 1rem;
+  box-shadow: 0 4px 6px 1px rgba(0,0,0,.05);
 }
 .topbar .brand {
   font-weight: bold;
+  font-size: 1.2rem;
   text-decoration: none;
   color: darkcyan;
 }
 .topbar nav a {
-  margin-left: 12px;
+  margin-left: 20px;
   text-decoration: none;
   color: darkcyan;
+  font-weight: 500;
 }
 .container {
   padding: 20px;
+  margin: 0 auto;
+}
+h1, h2, h3 {
+  color: darkcyan;
 }
 footer {
   padding: 10px 20px;
@@ -50,15 +58,37 @@ footer {
   background: #f8d7da;
   color: #721c24;
 }
-table {
-  border: 1px;
-  background-color: #ecfdfd;
-  border-collapse: collapse;
+form p {
+  margin-bottom: 15px;
 }
-table.apps th, table.apps td {
-  border: 1px solid darkcyan;
-  padding: 6px 10px;
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+table.apps, table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-top: 15px;
+}
+table.apps th, table th {
+  background-color: darkcyan;
+  color: white;
+  padding: 12px;
   text-align: left;
+  font-weight: 600;
+}
+table.apps td, table td {
+  border-bottom: 1px solid lightgray;
+  padding: 12px;
+  vertical-align: middle;
 }
 a {
   text-decoration: none;
@@ -66,15 +96,19 @@ a {
 }
 .card {
   background-color: lightcyan;
-  margin: 2rem;
-  padding: 2rem;
-  width: fit-content;
+  margin: 20px 0;
+  padding: 20px;
   border-radius: 1rem;
+  border: 1px solid #b2ebf2;
+  box-shadow: 0 4px 10px rgba(0, 139, 139, 0.05);
 }
-button {
-  border-color: darkcyan;
+button, .btn {
+  border: 2px solid darkcyan;
   border-radius: 1rem;
-  padding: 5px 3px;
+  padding: 8px 16px;
   background-color: lightcyan;
   color: darkcyan;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
 }
