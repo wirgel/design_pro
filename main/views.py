@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.generic import CreateView, DeleteView, FormView
+from django.views import View
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from .forms import RegisterForm, ApplicationForm
+from .forms import RegisterForm, ApplicationForm, AcceptForm, DoneForm
 from .models import Application
 
 
@@ -22,7 +23,7 @@ class AppLoginView(LoginView):
     redirect_authenticated_user = True
 
 
-class RegisterView(FormView ):
+class RegisterView(FormView):
     form_class = RegisterForm
     template_name = 'register.html'
     success_url = reverse_lazy('login')
@@ -48,7 +49,10 @@ class ApplicationCreateView(LoginRequiredMixin, CreateView):
 @login_required
 def profile(request):
     status = request.GET.get('status', '')
-    apps = Application.objects.filter(author=request.user)
+    if request.user.is_staff:
+        apps = Application.objects.all()
+    else:
+        apps = Application.objects.filter(author=request.user)
     if status in dict(Application.Status.choices):
         apps = apps.filter(status=status)
     return render(request, 'profile.html', {
@@ -77,3 +81,55 @@ class ApplicationDeleteView(LoginRequiredMixin, DeleteView):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+class StaffRequiredMixin(UserPassesTestMixin):
+    login_url = '/login/'
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_staff
+
+class AdminDashboard(StaffRequiredMixin, View):
+    model = Application
+    template_name = 'superadmin/dashboard.html'
+    context_object_name = 'apps'
+
+class AcceptApplicationView(StaffRequiredMixin, View):
+    form_class = ApplicationForm
+    def get(self, request, pk):
+        app = get_object_or_404(Application, pk=pk)
+        if app.status != Application.Status.NEW:
+            return redirect('admin_dashboard')
+        return render(request, 'superadmin/accept_form.html')
+    def post(self, request, pk):
+        app = get_object_or_404(Application, pk=pk)
+        if app.status != Application.Status.NEW:
+            return redirect('admin_dashboard')
+
+        form = AcceptForm(request.POST)
+        if form.is_valid():
+            app.status = Application.Status.ACCEPT
+            app.admin_comment = form.cleaned_data['comment']
+            app.save()
+            return redirect('admin_dashboard')
+        return render(request, 'superadmin/accept_form.html', {'form': form, 'app': app})
+
+class DoneApplicationView(StaffRequiredMixin, View):
+    form_class = DoneForm
+    def get(self, request, pk):
+        app = get_object_or_404(Application, pk=pk)
+        if app.status != Application.Status.NEW:
+            return redirect('admin_dashboard')
+        return render(request, 'superadmin/done_form.html', {'form': DoneForm(), 'app': app})
+
+    def post(self, request, pk):
+        app = get_object_or_404(Application, pk=pk)
+        if app.status != Application.Status.NEW:
+            return redirect('admin_dashboard')
+
+        form = DoneForm(request.POST, request.FILES)
+        if form.is_valid():
+            app.status = Application.Status.DONE
+            app.design_image = form.cleaned_data['design_image']
+            app.save()
+            return redirect('admin_dashboard')
+        return render(request, 'superadmin/done_form.html', {'form': form, 'app': app})

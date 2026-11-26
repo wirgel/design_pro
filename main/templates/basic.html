@@ -15,7 +15,8 @@
         {% if user.is_authenticated %}
             <a href="{% url 'profile' %}">Личный кабинет</a>
             {% if user.is_superuser %}
-                <a href="/superadmin/">Панель управления</a>
+                <a href="/superadmin/">Панель Джанго</a>
+                <a href="{% url 'admin_dashboard' %}">Панель управления</a>
             {% endif %}
             <a href="{% url 'logout' %}">Выйти</a>
         {% else %}
