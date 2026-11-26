@@ -8,11 +8,8 @@ urlpatterns = [
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/logout/', views.logout_view, name='logout'),
 
-    path('appplicayions/create/', views.ApplicationCreateView.as_view(), name='application_create'),
-    path('appplicayions/<int:pk>>/delete/', views.ApplicationDeleteView.as_view(), name='application_delete'),
+    path('applications/create/', views.ApplicationCreateView.as_view(), name='application_create'),
+    path('applications/<int:pk>>/delete/', views.ApplicationDeleteView.as_view(), name='application_delete'),
 
-    #дописать пути
-
-    #админка хз какая из
-
+    #админка
 ]

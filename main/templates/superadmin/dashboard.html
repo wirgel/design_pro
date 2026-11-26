@@ -8,7 +8,7 @@
     <a href="{% url 'admin_categories' %}">Управление категориями</a>
 </p>
 
-<table border="1">
+<table>
     <thead>
         <tr>
             <th>Дата</th>
@@ -22,7 +22,7 @@
     <tbody>
     {% for app in apps %}
         <tr>
-            <td>{{ app.created_at|date:"d.m.Y H:i" }}</td>
+            <td>{{ app.created_at }}</td>
             <td>{{ app.author.username }}</td>
             <td>{{ app.title }}</td>
             <td>{{ app.category.title }}</td>
