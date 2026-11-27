@@ -4,8 +4,6 @@ from .models import  Application, Category
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    pass
-    # list_display = ('id', 'author', 'title', 'status')
     list_filter = ('author', 'title', 'status')
 
 @admin.register(Category)
